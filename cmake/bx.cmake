@@ -45,7 +45,7 @@ target_include_directories( bx
 # Build system specific configurations
 if( MSVC )
 	target_include_directories( bx PUBLIC $<BUILD_INTERFACE:${BX_DIR}/include/compat/msvc> )
-elseif( MINGW )
+elseif( MINGW AND NOT ANDROID )
 	target_include_directories( bx PUBLIC $<BUILD_INTERFACE:${BX_DIR}/include/compat/mingw> )
 elseif( APPLE )
 	target_include_directories( bx PUBLIC $<BUILD_INTERFACE:${BX_DIR}/include/compat/osx> )
