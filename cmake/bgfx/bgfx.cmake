@@ -92,54 +92,11 @@ if(BGFX_WITH_WAYLAND)
 	target_link_libraries(bgfx PRIVATE wayland-egl)
 endif()
 
-# Forward bgfx compile-time settings that the project has configured.
-#
-# The named cache entries in the top level CMakeLists.txt cover the settings most
-# projects reach for, but bgfx has many more of them -- other pool sizes, cache sizes,
-# buffer sizes, the draw call block size. Forwarding only a fixed list means anything
-# outside it cannot be configured through bgfx.cmake at all, so consumers end up adding
-# their own target_compile_definitions after this. Those land later on the command line
-# and silently win, which turns a setting that is also on the list into two conflicting
-# definitions. Forward every BGFX_CONFIG_ variable the project has set instead, so there
-# is one place a setting can come from.
-#
-# Values are passed through as written rather than being required to be numeric. bgfx
-# spells most of its own defaults as expressions, including six of the settings that used
-# to be on the fixed list -- BGFX_CONFIG_MAX_TEXTURES is (4<<10) -- so a numeric test
-# would quietly discard a value a project had every reason to write that way.
-#
-# CMake booleans are skipped because the C preprocessor cannot use them. Those settings
-# are declared with option() and are turned into definitions further down, where they can
-# be evaluated per configuration. They are excluded by name as well, so that setting one
-# of them to 0 or 1 does not produce a second, conflicting definition.
-set(BGFX_FORWARDED_CONFIG_OPTIONS
-	"BGFX_CONFIG_MULTITHREADED"
-	"BGFX_CONFIG_DEBUG_ANNOTATION"
-	"BGFX_CONFIG_RENDERER_WEBGPU"
-)
-# cmake_dependent_option() defines <option>_AVAILABLE alongside the option itself. That is
-# bookkeeping for the module rather than a bgfx setting, and bgfx has no setting of its own
-# ending in _AVAILABLE, so exclude it wherever an excluded option can have produced one.
-set(BGFX_FORWARDED_CONFIG_EXCLUDE ${BGFX_FORWARDED_CONFIG_OPTIONS})
-foreach(BGFX_FORWARDED_CONFIG_OPTION IN LISTS BGFX_FORWARDED_CONFIG_OPTIONS)
-	list(APPEND BGFX_FORWARDED_CONFIG_EXCLUDE "${BGFX_FORWARDED_CONFIG_OPTION}_AVAILABLE")
-endforeach()
-get_cmake_property(BGFX_FORWARDED_CONFIG_VARIABLES VARIABLES)
-list(FILTER BGFX_FORWARDED_CONFIG_VARIABLES INCLUDE REGEX "^BGFX_CONFIG_")
-list(REMOVE_ITEM BGFX_FORWARDED_CONFIG_VARIABLES ${BGFX_FORWARDED_CONFIG_EXCLUDE})
-list(SORT BGFX_FORWARDED_CONFIG_VARIABLES)
-foreach(BGFX_FORWARDED_CONFIG_VARIABLE IN LISTS BGFX_FORWARDED_CONFIG_VARIABLES)
-	set(BGFX_FORWARDED_CONFIG_VALUE "${${BGFX_FORWARDED_CONFIG_VARIABLE}}")
-	string(TOUPPER "${BGFX_FORWARDED_CONFIG_VALUE}" BGFX_FORWARDED_CONFIG_VALUE_UPPER)
-	if(BGFX_FORWARDED_CONFIG_VALUE STREQUAL "")
-		continue()
+# Forward the bgfx compile-time settings declared in the top level CMakeLists.txt.
+foreach(BGFX_CONFIG_SETTING IN LISTS BGFX_CONFIG_SETTINGS)
+	if(NOT "${${BGFX_CONFIG_SETTING}}" STREQUAL "")
+		target_compile_definitions(bgfx PUBLIC "${BGFX_CONFIG_SETTING}=${${BGFX_CONFIG_SETTING}}")
 	endif()
-	if(BGFX_FORWARDED_CONFIG_VALUE_UPPER MATCHES "^(ON|OFF|TRUE|FALSE|YES|NO|Y|N|IGNORE|NOTFOUND|.*-NOTFOUND)$")
-		continue()
-	endif()
-	target_compile_definitions(
-		bgfx PUBLIC "${BGFX_FORWARDED_CONFIG_VARIABLE}=${BGFX_FORWARDED_CONFIG_VALUE}"
-	)
 endforeach()
 
 # Special Visual Studio Flags
