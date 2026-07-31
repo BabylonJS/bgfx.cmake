@@ -92,10 +92,10 @@ if(BGFX_WITH_WAYLAND)
 	target_link_libraries(bgfx PRIVATE wayland-egl)
 endif()
 
-# Forward the bgfx compile-time settings declared in the top level CMakeLists.txt.
-foreach(BGFX_CONFIG_SETTING IN LISTS BGFX_CONFIG_SETTINGS)
-	if(NOT "${${BGFX_CONFIG_SETTING}}" STREQUAL "")
-		target_compile_definitions(bgfx PUBLIC "${BGFX_CONFIG_SETTING}=${${BGFX_CONFIG_SETTING}}")
+# Forward the bgfx compile-time options declared in the top level CMakeLists.txt.
+foreach(BGFX_CONFIG_OPTION IN LISTS BGFX_CONFIG_OPTIONS)
+	if(NOT "${${BGFX_CONFIG_OPTION}}" STREQUAL "")
+		target_compile_definitions(bgfx PUBLIC "${BGFX_CONFIG_OPTION}=${${BGFX_CONFIG_OPTION}}")
 	endif()
 endforeach()
 
