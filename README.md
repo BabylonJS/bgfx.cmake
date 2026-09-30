@@ -25,7 +25,9 @@ builds the enabled tools. This target replaces the generic `tools` target.
 
 `BIMG_CONFIG_PARSE_ENABLE` defaults to `ON` and controls bimg's default image-format parser configuration. Per-format `BIMG_CONFIG_PARSE_<FORMAT>` variables accept `ON`, `OFF`, or an empty value (the default). An explicit value overrides the format's default; an empty value preserves bimg's configuration on each configure. Parent projects can also set these as normal variables before `add_subdirectory`.
 
-Supported format variables are `AVIF`, `BMP`, `EXR`, `GIF`, `HDR`, `HEIF`, `JPEG`, `PIC`, `PNG`, `PNM`, `PSD`, `TGA`, `WEBP`, and `WIC`. All inherit `BIMG_CONFIG_PARSE_ENABLE` except `HEIF`, which defaults to disabled, and `WIC`, whose default also requires Windows and at least one disabled PNG, JPEG, BMP, or GIF parser. HEIF requires externally supplied libheif headers and libraries; enabling its parser does not add that dependency.
+Supported format variables are `AVIF`, `BMP`, `EXR`, `GIF`, `HDR`, `HEIF`, `JPEG`, `PIC`, `PNG`, `PNM`, `PSD`, `TGA`, and `WEBP`. All inherit `BIMG_CONFIG_PARSE_ENABLE` except `HEIF`, which defaults to disabled. HEIF requires externally supplied libheif headers and libraries; enabling its parser does not add that dependency.
+
+`BIMG_CONFIG_PARSE_WIC` separately controls the Windows Imaging Component backend, not an image format. It accepts `ON`, `OFF`, or an empty value (the default), which preserves bimg's backend default. In the pinned bimg revision, that default requires `BIMG_CONFIG_PARSE_ENABLE`, Windows, and at least one disabled PNG, JPEG, BMP, or GIF parser.
 
 Use `-DBIMG_CONFIG_PARSE_AVIF=OFF` to disable only AVIF, or `-DBIMG_CONFIG_PARSE_ENABLE=OFF -DBIMG_CONFIG_PARSE_PNG=ON -DBIMG_CONFIG_PARSE_JPEG=ON` to enable only PNG and JPEG. With the generic setting disabled, `-DBIMG_CONFIG_PARSE_WIC=ON` explicitly enables the Windows Imaging Component fallback.
 

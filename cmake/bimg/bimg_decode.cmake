@@ -61,6 +61,10 @@ foreach(FORMAT IN LISTS BIMG_PARSE_FORMATS)
 	endif()
 endforeach()
 
+if(NOT "${BIMG_CONFIG_PARSE_WIC}" STREQUAL "")
+	target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_PARSE_WIC=$<BOOL:${BIMG_CONFIG_PARSE_WIC}>)
+endif()
+
 if(BIMG_PARSE_AVIF)
 	target_compile_definitions(bimg_decode PRIVATE AVIF_CODEC_DAV1D)
 

@@ -41,7 +41,6 @@ set(BIMG_PARSE_FORMATS
 	PSD
 	TGA
 	WEBP
-	WIC
 )
 foreach(FORMAT IN LISTS BIMG_PARSE_FORMATS)
 	if(NOT DEFINED BIMG_CONFIG_PARSE_${FORMAT})
@@ -51,6 +50,12 @@ foreach(FORMAT IN LISTS BIMG_PARSE_FORMATS)
 		set_property(CACHE BIMG_CONFIG_PARSE_${FORMAT} PROPERTY STRINGS "" ON OFF)
 	endif()
 endforeach()
+if(NOT DEFINED BIMG_CONFIG_PARSE_WIC)
+	set(BIMG_CONFIG_PARSE_WIC "" CACHE STRING "Enable Windows Imaging Component (empty uses bimg's default).")
+endif()
+if(DEFINED CACHE{BIMG_CONFIG_PARSE_WIC})
+	set_property(CACHE BIMG_CONFIG_PARSE_WIC PROPERTY STRINGS "" ON OFF)
+endif()
 option(BGFX_AMALGAMATED "Amalgamated bgfx build for faster compilation" OFF)
 option(BGFX_BUILD_TOOLS "Build bgfx tools." ON)
 cmake_dependent_option(BGFX_BUILD_TOOLS_BIN2C "Build bx binary to c converter." ON BGFX_BUILD_TOOLS OFF)
