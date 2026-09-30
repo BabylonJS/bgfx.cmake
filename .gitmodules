@@ -6,4 +6,4 @@
 	url = https://github.com/bkaradzic/bx.git
 [submodule "bimg"]
 	path = bimg
-	url = https://github.com/bghgary/bimg.git
+	url = https://github.com/bkaradzic/bimg.git
