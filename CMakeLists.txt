@@ -27,9 +27,30 @@ include(CMakeDependentOption)
 option(BX_AMALGAMATED "Amalgamated bx build for faster compilation" OFF)
 option(BX_CONFIG_DEBUG "Log debug messages (default: on in debug)" OFF)
 option(BIMG_CONFIG_PARSE_ENABLE "Enable bimg image format parsers." ON)
-if(NOT DEFINED BIMG_CONFIG_PARSE_AVIF)
-	set(BIMG_CONFIG_PARSE_AVIF "" CACHE STRING "Enable AVIF parsing (empty inherits BIMG_CONFIG_PARSE_ENABLE).")
-endif()
+set(BIMG_PARSE_FORMATS
+	AVIF
+	BMP
+	EXR
+	GIF
+	HDR
+	HEIF
+	JPEG
+	PIC
+	PNG
+	PNM
+	PSD
+	TGA
+	WEBP
+	WIC
+)
+foreach(FORMAT IN LISTS BIMG_PARSE_FORMATS)
+	if(NOT DEFINED BIMG_CONFIG_PARSE_${FORMAT})
+		set(BIMG_CONFIG_PARSE_${FORMAT} "" CACHE STRING "Enable ${FORMAT} parsing (empty uses bimg's default).")
+	endif()
+	if(DEFINED CACHE{BIMG_CONFIG_PARSE_${FORMAT}})
+		set_property(CACHE BIMG_CONFIG_PARSE_${FORMAT} PROPERTY STRINGS "" ON OFF)
+	endif()
+endforeach()
 option(BGFX_AMALGAMATED "Amalgamated bgfx build for faster compilation" OFF)
 option(BGFX_BUILD_TOOLS "Build bgfx tools." ON)
 cmake_dependent_option(BGFX_BUILD_TOOLS_BIN2C "Build bx binary to c converter." ON BGFX_BUILD_TOOLS OFF)
