@@ -47,7 +47,7 @@ target_link_libraries(
 
 target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_PARSE_ENABLE=$<BOOL:${BIMG_CONFIG_PARSE_ENABLE}>)
 
-foreach(FORMAT IN LISTS BIMG_PARSE_FORMATS)
+foreach(FORMAT AVIF BMP EXR GIF HDR HEIF JPEG PIC PNG PNM PSD TGA WEBP)
 	target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_PARSE_${FORMAT}=$<BOOL:${BIMG_CONFIG_PARSE_${FORMAT}}>)
 endforeach()
 

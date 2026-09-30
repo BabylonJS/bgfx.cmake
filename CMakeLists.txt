@@ -27,27 +27,6 @@ include(CMakeDependentOption)
 option(BX_AMALGAMATED "Amalgamated bx build for faster compilation" OFF)
 option(BX_CONFIG_DEBUG "Log debug messages (default: on in debug)" OFF)
 option(BIMG_CONFIG_PARSE_ENABLE "Enable bimg image format parsers." ON)
-set(BIMG_PARSE_FORMATS
-	AVIF
-	BMP
-	EXR
-	GIF
-	HDR
-	HEIF
-	JPEG
-	PIC
-	PNG
-	PNM
-	PSD
-	TGA
-	WEBP
-)
-foreach(FORMAT IN LISTS BIMG_PARSE_FORMATS)
-	# Migrate the former empty/inherit cache value before option() interprets it as OFF.
-	if(DEFINED CACHE{BIMG_CONFIG_PARSE_${FORMAT}} AND "$CACHE{BIMG_CONFIG_PARSE_${FORMAT}}" STREQUAL "")
-		unset(BIMG_CONFIG_PARSE_${FORMAT} CACHE)
-	endif()
-endforeach()
 option(BIMG_CONFIG_PARSE_AVIF "Enable AVIF parsing." ${BIMG_CONFIG_PARSE_ENABLE})
 option(BIMG_CONFIG_PARSE_BMP "Enable BMP parsing." ${BIMG_CONFIG_PARSE_ENABLE})
 option(BIMG_CONFIG_PARSE_EXR "Enable EXR parsing." ${BIMG_CONFIG_PARSE_ENABLE})

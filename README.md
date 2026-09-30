@@ -27,7 +27,7 @@ builds the enabled tools. This target replaces the generic `tools` target.
 
 Supported format variables are `AVIF`, `BMP`, `EXR`, `GIF`, `HDR`, `HEIF`, `JPEG`, `PIC`, `PNG`, `PNM`, `PSD`, `TGA`, and `WEBP`. All default to `BIMG_CONFIG_PARSE_ENABLE` except `HEIF`, which defaults to `OFF`. HEIF requires externally supplied libheif headers and libraries; enabling its parser does not add that dependency.
 
-Like other CMake options, per-format values persist in the cache: changing the generic option later does not reset them. Use a fresh build directory or remove the per-format entries with `cmake -U "BIMG_CONFIG_PARSE_*"` to apply new defaults. Former empty/inherit cache entries are migrated to the current default on reconfigure; explicit values are retained.
+Like other CMake options, per-format values persist in the cache: changing the generic option later does not reset them. Use a fresh build directory or remove the per-format entries with `cmake -U "BIMG_CONFIG_PARSE_*"` to apply new defaults.
 
 `BIMG_CONFIG_PARSE_WIC` separately controls the Windows Imaging Component backend, not an image format. It accepts `ON`, `OFF`, or an empty value (the default), which preserves bimg's backend default. In the pinned bimg revision, that default requires `BIMG_CONFIG_PARSE_ENABLE`, Windows, and at least one disabled PNG, JPEG, BMP, or GIF parser.
 
