@@ -29,9 +29,7 @@ builds the enabled tools. This target replaces the generic `tools` target.
 
 Supported format variables are `AVIF`, `BMP`, `EXR`, `GIF`, `HDR`, `HEIF`, `JPEG`, `PIC`, `PNG`, `PNM`, `PSD`, `TGA`, and `WEBP`. All default to empty except `HEIF`, which defaults to `OFF`. In the pinned bimg revision, empty values inherit `BIMG_CONFIG_PARSE_ENABLE` except HEIF, whose upstream default is disabled. HEIF requires externally supplied libheif headers and libraries; enabling its parser does not add that dependency.
 
-`BIMG_CONFIG_USE_WIC` is a separate boolean backend option, defaulting to `OFF`. Its expected upstream contract selects Windows Imaging Component for enabled per-format parsers; it does not enable formats itself. The pinned bimg revision does not yet implement this flag, so backend selection and runtime behavior await the upstream change.
-
-Use `-DBIMG_CONFIG_PARSE_AVIF=OFF` to disable only AVIF, or `-DBIMG_CONFIG_PARSE_ENABLE=OFF -DBIMG_CONFIG_PARSE_PNG=ON -DBIMG_CONFIG_PARSE_JPEG=ON` to enable only PNG and JPEG. Use `-DBIMG_CONFIG_USE_WIC=ON` to opt into the expected Windows backend.
+Use `-DBIMG_CONFIG_PARSE_AVIF=OFF` to disable only AVIF, or `-DBIMG_CONFIG_PARSE_ENABLE=OFF -DBIMG_CONFIG_PARSE_PNG=ON -DBIMG_CONFIG_PARSE_JPEG=ON` to enable only PNG and JPEG.
 
 When AVIF is disabled, its parser and the libavif/dav1d sources are excluded from `bimg_decode`. Set these CMake variables rather than only adding preprocessor definitions to compiler flags, so source selection and parser configuration agree.
 

@@ -55,8 +55,6 @@ foreach(FORMAT AVIF;BMP;EXR;GIF;HDR;HEIF;JPEG;PIC;PNG;PNM;PSD;TGA;WEBP)
 	endif()
 endforeach()
 
-target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_USE_WIC=$<BOOL:${BIMG_CONFIG_USE_WIC}>)
-
 if("${BIMG_CONFIG_PARSE_AVIF}" STREQUAL "")
 	set(BIMG_PARSE_AVIF "${BIMG_CONFIG_PARSE_ENABLE}")
 else()
