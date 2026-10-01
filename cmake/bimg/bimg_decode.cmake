@@ -47,13 +47,38 @@ target_link_libraries(
 
 target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_PARSE_ENABLE=$<BOOL:${BIMG_CONFIG_PARSE_ENABLE}>)
 
-foreach(FORMAT AVIF BMP EXR GIF HDR HEIF JPEG PIC PNG PNM PSD TGA WEBP)
-	target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_PARSE_${FORMAT}=$<BOOL:${BIMG_CONFIG_PARSE_${FORMAT}}>)
+foreach(
+	FORMAT
+	AVIF
+	BMP
+	EXR
+	GIF
+	HDR
+	HEIF
+	JPEG
+	PIC
+	PNG
+	PNM
+	PSD
+	TGA
+	WEBP
+)
+	if(NOT "${BIMG_CONFIG_PARSE_${FORMAT}}" STREQUAL "")
+		target_compile_definitions(
+			bimg_decode PRIVATE BIMG_CONFIG_PARSE_${FORMAT}=$<BOOL:${BIMG_CONFIG_PARSE_${FORMAT}}>
+		)
+	endif()
 endforeach()
 
 target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_USE_WIC=$<BOOL:${BIMG_CONFIG_USE_WIC}>)
 
-if(BIMG_CONFIG_PARSE_AVIF)
+if("${BIMG_CONFIG_PARSE_AVIF}" STREQUAL "")
+	set(BIMG_PARSE_AVIF "${BIMG_CONFIG_PARSE_ENABLE}")
+else()
+	set(BIMG_PARSE_AVIF "${BIMG_CONFIG_PARSE_AVIF}")
+endif()
+
+if(BIMG_PARSE_AVIF)
 	target_compile_definitions(bimg_decode PRIVATE AVIF_CODEC_DAV1D)
 
 	target_sources(

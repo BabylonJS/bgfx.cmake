@@ -23,11 +23,9 @@ builds the enabled tools. This target replaces the generic `tools` target.
 
 ### Image parsing
 
-`BIMG_CONFIG_PARSE_ENABLE` defaults to `ON` and supplies the initial default for per-format `BIMG_CONFIG_PARSE_<FORMAT>` boolean options. Parent projects can set explicit normal variables before `add_subdirectory`.
+`BIMG_CONFIG_PARSE_ENABLE` defaults to `ON` and controls bimg's default image-format parsers. Per-format `BIMG_CONFIG_PARSE_<FORMAT>` settings accept an empty string, `ON`, or `OFF`. Empty values omit that format's compiler definition, preserving bimg's default on each configure. Parent projects can set normal variables before `add_subdirectory`; explicit values override the defaults.
 
-Supported format variables are `AVIF`, `BMP`, `EXR`, `GIF`, `HDR`, `HEIF`, `JPEG`, `PIC`, `PNG`, `PNM`, `PSD`, `TGA`, and `WEBP`. All default to `BIMG_CONFIG_PARSE_ENABLE` except `HEIF`, which defaults to `OFF`. HEIF requires externally supplied libheif headers and libraries; enabling its parser does not add that dependency.
-
-Like other CMake options, per-format values persist in the cache: changing the generic option later does not reset them. Use a fresh build directory or remove the per-format entries with `cmake -U "BIMG_CONFIG_PARSE_*"` to apply new defaults.
+Supported format variables are `AVIF`, `BMP`, `EXR`, `GIF`, `HDR`, `HEIF`, `JPEG`, `PIC`, `PNG`, `PNM`, `PSD`, `TGA`, and `WEBP`. All default to empty except `HEIF`, which defaults to `OFF`. In the pinned bimg revision, empty values inherit `BIMG_CONFIG_PARSE_ENABLE` except HEIF, whose upstream default is disabled. HEIF requires externally supplied libheif headers and libraries; enabling its parser does not add that dependency.
 
 `BIMG_CONFIG_USE_WIC` is a separate boolean backend option, defaulting to `OFF`. Its expected upstream contract selects Windows Imaging Component for enabled per-format parsers; it does not enable formats itself. The pinned bimg revision does not yet implement this flag, so backend selection and runtime behavior await the upstream change.
 
