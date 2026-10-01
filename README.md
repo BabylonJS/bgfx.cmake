@@ -29,9 +29,9 @@ Supported format variables are `AVIF`, `BMP`, `EXR`, `GIF`, `HDR`, `HEIF`, `JPEG
 
 Like other CMake options, per-format values persist in the cache: changing the generic option later does not reset them. Use a fresh build directory or remove the per-format entries with `cmake -U "BIMG_CONFIG_PARSE_*"` to apply new defaults.
 
-`BIMG_CONFIG_USE_WIC` is a separate boolean backend option, defaulting to `ON` on Windows and `OFF` elsewhere. Its expected upstream contract selects Windows Imaging Component for enabled per-format parsers; it does not enable formats itself. The pinned bimg revision does not yet implement this flag, so backend selection and runtime behavior await the upstream change.
+`BIMG_CONFIG_USE_WIC` is a separate boolean backend option, defaulting to `OFF`. Its expected upstream contract selects Windows Imaging Component for enabled per-format parsers; it does not enable formats itself. The pinned bimg revision does not yet implement this flag, so backend selection and runtime behavior await the upstream change.
 
-Use `-DBIMG_CONFIG_PARSE_AVIF=OFF` to disable only AVIF, or `-DBIMG_CONFIG_PARSE_ENABLE=OFF -DBIMG_CONFIG_PARSE_PNG=ON -DBIMG_CONFIG_PARSE_JPEG=ON` to enable only PNG and JPEG. Use `-DBIMG_CONFIG_USE_WIC=OFF` to opt out of the expected Windows backend.
+Use `-DBIMG_CONFIG_PARSE_AVIF=OFF` to disable only AVIF, or `-DBIMG_CONFIG_PARSE_ENABLE=OFF -DBIMG_CONFIG_PARSE_PNG=ON -DBIMG_CONFIG_PARSE_JPEG=ON` to enable only PNG and JPEG. Use `-DBIMG_CONFIG_USE_WIC=ON` to opt into the expected Windows backend.
 
 When AVIF is disabled, its parser and the libavif/dav1d sources are excluded from `bimg_decode`. Set these CMake variables rather than only adding preprocessor definitions to compiler flags, so source selection and parser configuration agree.
 
