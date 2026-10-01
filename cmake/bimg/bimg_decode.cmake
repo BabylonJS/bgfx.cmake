@@ -51,9 +51,7 @@ foreach(FORMAT AVIF BMP EXR GIF HDR HEIF JPEG PIC PNG PNM PSD TGA WEBP)
 	target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_PARSE_${FORMAT}=$<BOOL:${BIMG_CONFIG_PARSE_${FORMAT}}>)
 endforeach()
 
-if(NOT "${BIMG_CONFIG_PARSE_WIC}" STREQUAL "")
-	target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_PARSE_WIC=$<BOOL:${BIMG_CONFIG_PARSE_WIC}>)
-endif()
+target_compile_definitions(bimg_decode PRIVATE BIMG_CONFIG_USE_WIC=$<BOOL:${BIMG_CONFIG_USE_WIC}>)
 
 if(BIMG_CONFIG_PARSE_AVIF)
 	target_compile_definitions(bimg_decode PRIVATE AVIF_CODEC_DAV1D)
