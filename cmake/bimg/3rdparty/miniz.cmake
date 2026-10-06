@@ -16,8 +16,28 @@ endif()
 
 if(NOT MINIZ_LIBRARIES)
 	file(GLOB_RECURSE #
-		 MINIZ_SOURCES #
+		 MINIZ_SOURCES_INTERNAL #
 		 ${BIMG_DIR}/3rdparty/tinyexr/deps/miniz/miniz.* #
 	)
 	set(MINIZ_INCLUDE_DIR ${BIMG_DIR}/3rdparty/tinyexr/deps)
+
+	add_library(minz STATIC ${MINIZ_SOURCES_INTERNAL})
+	target_include_directories(
+		minz PUBLIC $<BUILD_INTERFACE:${MINIZ_INCLUDE_DIR}>
+					$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+	)
+	set_target_properties(minz PROPERTIES FOLDER "bgfx/3rdparty")
+	set(MINIZ_LIBRARIES minz)
+
+	if(BGFX_INSTALL)
+		install(
+			TARGETS minz
+			EXPORT "${TARGETS_EXPORT_NAME}"
+			ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+		)
+		install(
+			FILES ${BIMG_DIR}/3rdparty/tinyexr/deps/miniz/miniz.h
+			DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/miniz"
+		)
+	endif()
 endif()

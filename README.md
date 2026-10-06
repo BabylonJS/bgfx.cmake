@@ -39,6 +39,12 @@ Use `-DBIMG_CONFIG_PARSE_AVIF=OFF` to disable only AVIF, or `-DBIMG_CONFIG_PARSE
 
 When AVIF is disabled, its parser and the libavif/dav1d sources are excluded from `bimg_decode`. Set these CMake variables rather than only adding preprocessor definitions to compiler flags, so source selection and parser configuration agree.
 
+The bundled miniz implementation is built once in the static `minz` target.
+Both `bimg` and `bimg_decode` link it transitively instead of embedding separate
+copies. Consumers merging the archives must include `libminz.a` exactly once.
+With `BGFX_INSTALL=ON`, the library and its header are installed and the target
+is exported. Supplying `MINIZ_LIBRARIES` continues to use the external library.
+
 ## How To Use
 This project is setup to be included a few different ways. To include bgfx source code in your project simply use add_subdirectory to include this project. To build bgfx binaries build the `INSTALL` target (or `make install`). The installed files will be in the directory specified by `CMAKE_INSTALL_PREFIX` which we recommend you set to `./install` so it will export to your build directory. Note you may want to build install on both `Release` and `Debug` configurations.
 
