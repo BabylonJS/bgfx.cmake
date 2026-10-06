@@ -21,6 +21,9 @@ if(NOT MINIZ_LIBRARIES)
 	)
 	set(MINIZ_INCLUDE_DIR ${BIMG_DIR}/3rdparty/tinyexr/deps)
 
+	# bimg and bimg_decode must share one implementation to avoid duplicate globals
+	# when their archives are merged or force-loaded. Manual merges must include
+	# libminz.a exactly once.
 	add_library(minz STATIC ${MINIZ_SOURCES_INTERNAL})
 	target_include_directories(
 		minz PUBLIC $<BUILD_INTERFACE:${MINIZ_INCLUDE_DIR}>
