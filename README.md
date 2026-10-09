@@ -31,6 +31,8 @@ See [CMakeLists.txt](CMakeLists.txt) for available settings and defaults. Set th
 
 Disabling AVIF parsing excludes the bundled libavif/dav1d sources. Enabling HEIF parsing requires externally supplied libheif headers and libraries.
 
+Miniz is compiled by bimg's EXR decoder. No standalone `minz` library is built or installed.
+
 ## Features
 * No outside dependencies besides bx, bimg, bgfx, and CMake.
 * Tested on

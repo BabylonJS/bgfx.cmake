@@ -41,7 +41,6 @@ target_link_libraries(
 	bimg
 	PUBLIC bx #
 		   ${ASTC_ENCODER_LIBRARIES} #
-		   ${MINIZ_LIBRARIES} #
 )
 
 if(BGFX_INSTALL)
