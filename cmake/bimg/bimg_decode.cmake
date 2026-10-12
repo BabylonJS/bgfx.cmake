@@ -48,6 +48,7 @@ target_link_libraries(
 	bimg_decode
 	PUBLIC bx #
 		   ${LOADPNG_LIBRARIES} #
+		   ${MINIZ_LIBRARIES} #
 		   ${TINYEXR_LIBRARIES} #
 )
 

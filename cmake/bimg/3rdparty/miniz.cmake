@@ -14,4 +14,6 @@ if(NOT IS_DIRECTORY ${BIMG_DIR})
 	return()
 endif()
 
-set(MINIZ_INCLUDE_DIR ${BIMG_DIR}/3rdparty/tinyexr/deps)
+if(NOT MINIZ_LIBRARIES)
+	set(MINIZ_INCLUDE_DIR ${BIMG_DIR}/3rdparty/tinyexr/deps)
+endif()
